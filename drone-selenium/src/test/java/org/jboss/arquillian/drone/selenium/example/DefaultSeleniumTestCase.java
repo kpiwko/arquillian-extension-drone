@@ -63,19 +63,17 @@ public class DefaultSeleniumTestCase {
 
     @Deployment(testable = false)
     public static WebArchive deploySample() {
-        WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
+        return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addAsWebResource(new File("src/test/resources/form.html"), "form.html")
                 .addAsWebResource(new File("src/test/resources/js/jquery-1.8.2.min.js"), "js/jquery-1.8.2.min.js");
-
-        System.out.println(war.toString(true));
-
-        return war;
     }
 
     @Test
     @InSequence(1)
     public void loginPage() {
         Assert.assertNotNull("Default Selenium is not null", driver);
+        Assert.assertNotNull("Context root is not null", contextRoot);
+
         driver.open(contextRoot.toString() + "form.html");
 
         driver.type(USERNAME_FIELD, USERNAME);
